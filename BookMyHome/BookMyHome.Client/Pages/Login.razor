@@ -1,0 +1,22 @@
+@page "/login"
+@inject HttpClient Http
+
+<h3>Login</h3>
+
+<input @bind="username" placeholder="Username" />
+<input @bind="password" placeholder="Password" type="password" />
+<button @onclick="SubmitLogin">Login</button>
+
+<p>@message</p>
+
+@code {
+    string username = "";
+    string password = "";
+    string message = "";
+
+    async Task SubmitLogin()
+    {
+        var response = await Http.PostAsJsonAsync("http://localhost:8080/auth/login", new { username, password });
+        message = await response.Content.ReadAsStringAsync();
+    }
+}
