@@ -11,11 +11,11 @@ services:
 
   authenticationservice:
     build: ./AuthenticationService
-    deploy:
-      replicas: 2
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - ConnectionStrings__Default=server=usersdb;user=root;password=root;database=usersdb
+    ports:
+        - "8080:5000"
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:5000/health"]
       interval: 5s
