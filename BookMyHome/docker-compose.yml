@@ -12,37 +12,19 @@ services:
   authenticationservice:
     build: ./AuthenticationService
     deploy:
-      replicas: 2
+      replicas: 1
     environment:
       - ASPNETCORE_URLS=http://+:5000
-      - ConnectionStrings__Default=server=usersdb;user=root;password=root;database=usersdb
+      - ConnectionStrings__Default=${CONNECTIONSTRING_DEFAULT}
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:5000/health"]
       interval: 5s
       timeout: 3s
       retries: 20
-    depends_on:
-      usersdb:
-        condition: service_healthy
-
-  usersdb:
-    image: mysql:8.0
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: usersdb
-    # ⇩ vigtig: persistér data + kør init.sql ved første opstart
-    volumes:
-      - dbdata:/var/lib/mysql
-      - ./AuthenticationService/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    # ⇩ vigtig: eksponér MySQL til din host, så HeidiSQL kan forbinde
-    ports:
-      - "3307:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
-      interval: 5s
-      timeout: 3s
-      retries: 20
+    # Note: this service no longer depends on a local MySQL container.
+    # The authentication service reads the connection string from
+    # the env variable ConnectionStrings__Default (populated from
+    # the .env file as CONNECTIONSTRING_DEFAULT).
 
 volumes:
   dbdata:
