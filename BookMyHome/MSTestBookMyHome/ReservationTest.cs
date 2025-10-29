@@ -16,7 +16,7 @@ namespace MSTestBookMyHome
             DateTime endDate = new DateTime(2024, 7, 10);
             double reservationPrice = 1500.00;
 
-            Reservation reservation = new Reservation();
+            Booking reservation = new Booking();
             reservation.NewReservation(reservationId, guestId, listingId, startDate, endDate, reservationPrice);
 
             Assert.AreEqual(reservationId, reservation.ReservationId);

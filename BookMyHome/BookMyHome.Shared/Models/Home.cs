@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookMyHome.Shared.Models
 {
-    public class Crip
+    public class Home
     {
         [Key]
         public int HomeId { get; set; }
@@ -26,7 +26,7 @@ namespace BookMyHome.Shared.Models
         [Required]
         public int HomeStars { get; set; }
 
-        public Crip(int homeId, string homeType, string homeAdress, int homeSize, int homeBeds, int homeBathrooms, string homeRules, int homeStars)
+        public Home(int homeId, string homeType, string homeAdress, int homeSize, int homeBeds, int homeBathrooms, string homeRules, int homeStars)
         {
             HomeId = homeId;
             HomeType = homeType;
