@@ -4,7 +4,6 @@ using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS: tillad Blazor klient på https://localhost:7091
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorClient", policy =>
@@ -18,13 +17,10 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Brug CORS
 app.UseCors("AllowBlazorClient");
 
-// Hent connection string fra appsettings.json / Docker environment
 var connString = builder.Configuration.GetConnectionString("Default");
 
-// Hash funktion
 string HashPassword(string password)
 {
     using var sha256 = SHA256.Create();
@@ -32,7 +28,6 @@ string HashPassword(string password)
     return Convert.ToBase64String(bytes);
 }
 
-// Register endpoint
 app.MapPost("/register", async (UserLogin input) =>
 {
     if (string.IsNullOrWhiteSpace(input.Username) || string.IsNullOrWhiteSpace(input.Password))
@@ -57,7 +52,6 @@ app.MapPost("/register", async (UserLogin input) =>
     }
 });
 
-// Login endpoint
 app.MapPost("/login", async (UserLogin input) =>
 {
     await using var conn = new MySqlConnection(connString);
@@ -73,10 +67,8 @@ app.MapPost("/login", async (UserLogin input) =>
     return storedHash == HashPassword(input.Password) ? Results.Ok("Login successful!") : Results.Unauthorized();
 });
 
-// Health endpoint
 app.MapGet("/health", () => Results.Ok("OK"));
 
 app.Run();
 
-// Type declaration
 public record UserLogin(string Username, string Password);

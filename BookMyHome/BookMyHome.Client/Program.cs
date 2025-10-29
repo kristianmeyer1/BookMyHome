@@ -7,9 +7,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// Base address peger på gateway (som proxier til authenticationservice)
 builder.Services.AddScoped(sp =>
-    new HttpClient { BaseAddress = new Uri("http://localhost:8080/") });
+    new HttpClient { BaseAddress = new Uri("http://localhost:8080/auth/") });
 
 var app = builder.Build();
 
@@ -43,7 +42,6 @@ async Task LoginUser()
     }
 }
 
-// Kald funktioner (fjern eller integrer i UI)
 await RegisterUser();
 await LoginUser();
 
