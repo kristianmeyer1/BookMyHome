@@ -18,7 +18,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:5000
       # Connection string til din online database:
-      - ConnectionStrings__Default=Server=mysql73.unoeuro.com;Port=3306;Database=ferrariconnie_dk_db;Uid=ferrariconnie_dk;Pwd=bkngcw5BmR6DEx2ep4a3;
+      - ConnectionStrings__Default=Server=mysql80.unoeuro.com;Port=3306;Database=danlinedanser_dk_db;Uid=danlinedanser_dk;Pwd=DhxrtHRg345wnyfdeFb9;
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:5000/health"]
       interval: 5s
